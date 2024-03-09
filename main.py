@@ -8,19 +8,19 @@ import io
 model_path = "mad_classifier_model.h5"
 model = load_model(model_path)
 
-# Define the FastAPI app
+# FastAPI app
 app = FastAPI()
 
-# Function to preprocess an image
+# Preprocess the image
 def preprocess_image(file):
     # Read the file as bytes
     image_bytes = file.read()
 
     # Load the image
-    img = load_img(io.BytesIO(image_bytes), target_size=(224, 224))  # Adjust target_size if needed
+    img = load_img(io.BytesIO(image_bytes), target_size=(224, 224)) 
     img = img_to_array(img)
     img = img / 255.0  # Normalize pixel values to [0, 1]
-    img = np.expand_dims(img, axis=0)  # Add batch dimension
+    img = np.expand_dims(img, axis=0)  # batch dimension
     return img
 
 # Endpoint to classify an uploaded image
@@ -33,7 +33,7 @@ async def classify_image(file: UploadFile = File(...)):
     predictions = model.predict(img)
     predicted_class = np.argmax(predictions, axis=1)[0]  # Get the predicted class index
     
-    # Define the class labels mapping
+    # class labels mapping
     class_labels = {
     0: '0.1 MAD',
     1: '0.2 MAD',
